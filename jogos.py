@@ -9,6 +9,7 @@ def escolhe_jogo():
     print("1 FORCA | 2 ADIVINHAÇÃO")
     jogo = int(input("Qual jogo?"))
 
+
     if(jogo == 1):
         print("Jogando Forca")
         forca.jogar()
