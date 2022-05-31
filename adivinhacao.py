@@ -3,10 +3,9 @@ import random
 def jogar():
 
     print("***********************************")
-    print("***********************************")
     print("Bem vindo ao jogo de ADIVINHAÇÃO!")
-
-    
+    print("***********************************")
+        
     numero_secreto = random.randrange(0,101)
     chances = 0
     pontos = 1000

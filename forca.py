@@ -2,43 +2,23 @@ import random
 
 def jogar():
 
-    print("***********************************")
-    print("Bem vindo ao jogo da Forca!")
-    print("***********************************")
+    mensagem_abertura()
 
-    arquivo = open("palavras.txt", "r")
-
-
-    palavras = []
-
-    for linha in arquivo:
-        linha = linha.strip()
-        palavras.append(linha)
-
-    arquivo.close()
-
-    numero = random.randrange(0, len(palavras))
-
-    palavra_secreta = palavras[numero].upper()
-    letras_acertadas = ["_" for letra in palavra_secreta]
+    palavra_secreta = carrega_sorteia_palavra()
+    
+    letras_acertadas = inicializa_letras_acertadas(palavra_secreta)
+    print(letras_acertadas)
 
     enforcou = False
     acertou = False
     erros = 0
 
-    print(letras_acertadas)
-
     while(not enforcou and not acertou):
 
-        chute = input("Escolha uma letra:")
-        chute = chute.strip().upper()
+        chute = captura_chute()
 
         if(chute in palavra_secreta):
-            index = 0
-            for letra in palavra_secreta:
-                if(chute == letra):
-                    letras_acertadas[index] = letra
-                index += 1
+            marca_chute_correto(palavra_secreta, chute, letras_acertadas)
         else:
             erros += 1
             print("Letra não encontrada. Chances restantes: {}".format(6-erros))
@@ -48,10 +28,50 @@ def jogar():
         print(letras_acertadas)
 
     if(acertou):
-        print("Você GANHOU!")
+        print_message_winner()
     else:
-        print("GAME OVER!")
-    print("FIM DO JOGO!")
+        print_message_loser(palavra_secreta)
+
+def print_message_loser(palavra_secreta):
+    print("Você perdeu!")
+    print("A palavra era {}".format(palavra_secreta))
+    
+def print_message_winner():
+    print("Você ganhou!")
+
+def marca_chute_correto(palavra_secreta, chute, letras_acertadas):
+    index = 0
+    for letra in palavra_secreta:
+        if(chute == letra):
+            letras_acertadas[index] = letra
+        index += 1
+
+def captura_chute():
+    chute = input("Escolha uma letra:")
+    chute = chute.strip().upper()
+    return chute
+
+def mensagem_abertura():
+    print("***********************************")
+    print("Bem vindo ao jogo da Forca!")
+    print("***********************************")
+
+def carrega_sorteia_palavra():
+    arquivo = open("palavras.txt", "r")
+    palavras = []
+
+    for linha in arquivo:
+        linha = linha.strip()
+        palavras.append(linha)
+
+    arquivo.close()
+
+    numero = random.randrange(0, len(palavras))
+    palavra_secreta = palavras[numero].upper()
+    return palavra_secreta
+
+def inicializa_letras_acertadas(palavra):
+    return ["_" for letra in palavra]
 
 if(__name__ == "__main__"):
     jogar()
